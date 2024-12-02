@@ -70,14 +70,52 @@ tim_berners_lee = Programmer(
     famous_for="World Wide Web"
 )
 
+caprice_holford = Programmer (
+    first_name = "Caprice",
+    last_name = "Holford",
+    gender = "F",
+    nationality = "British",
+    famous_for = "Code Institute"
+)
+
 # session.add(ada_lovelace)
 session.add(alan_turing)
 session.add(grace_hopper)
 session.add(margaret_hamilton)
 session.add(bill_gates)
 session.add(tim_berners_lee)
+session.add(caprice_holford)
 
-session.commit()
+# programmer = session.query(Programmer).filter_by(id=7).first()
+# programmer.famous_for = "World President"
+
+# session.commit ()
+
+# people = session.query(Programmer)
+# for person in people:
+#     if person.gender == "F":
+#         person.gender = "Female"
+#     elif person.gender == "M":
+#         person.gender = "Male"
+#     else:
+#         print("Gender not defined")
+#     session.commit()
+
+fname = input("Enter a first name: ")
+lname = input("Enter a last name: ")
+programmer = session.query(Programmer).filter_by(first_name=fname, last_name=lname).first()
+# defensive programming
+if programmer is not None:
+    print("Programmer Found: ", programmer.first_name + " " + programmer.last_name)
+    confirmation = input("Are you sure you want to delete this record? (y/n) ")
+    if confirmation.lower() == "y":
+        session.delete(programmer)
+        session.commit()
+        print("Programmer has been deleted")
+    else:
+            print("Programmer not deleted")
+else: 
+        print("No records found")
 
 programmers = session.query(Programmer)
 for programmer in programmers:
